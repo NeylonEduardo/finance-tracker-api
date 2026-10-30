@@ -1,10 +1,8 @@
-package com.ney.financetrackerapi.domain.entities;
+package com.ney.financetrackerapi.model;
 
 import com.ney.financetrackerapi.domain.AccountId;
 import com.ney.financetrackerapi.enums.AccountType;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -24,17 +22,19 @@ public class AccountEntity{
 
         @EmbeddedId
         @NotNull(message = "Id is mandatory")
-        AccountId id;
+        private AccountId id;
 
         @NotEmpty(message = "Name is mandatory")
-        String name;
+        private String name;
 
         @NotEmpty(message = "Type is mandatory")
-        AccountType type;
+        @Enumerated(EnumType.STRING)
+        @Column(nullable = false, unique = true)
+        private AccountType type;
 
         @Min(value = 1, message = "Balance be must 1 or more")
         @NotEmpty(message = "Initial balance is mandatory")
-        BigDecimal initialBalance;
+        private BigDecimal initialBalance;
 
         public AccountEntity(String name, AccountType type, BigDecimal initialBalance){
             Assert.notNull(name, "Name is mandatory");

@@ -1,10 +1,8 @@
-package com.ney.financetrackerapi.domain.entities;
+package com.ney.financetrackerapi.model;
 
 import com.ney.financetrackerapi.domain.CategoryId;
 import com.ney.financetrackerapi.enums.CategoryType;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -21,13 +19,15 @@ public class CategoryEntity{
 
         @EmbeddedId
         @NotNull(message = "Id is mandatory")
-        CategoryId id;
+        private CategoryId id;
 
         @NotEmpty(message = "Name is mandatory")
-        String name;
+        private String name;
 
         @NotEmpty(message = "Type is mandatory")
-        CategoryType type;
+        @Enumerated(EnumType.STRING)
+        @Column(nullable = false, unique = true)
+        private CategoryType type;
 
         public CategoryEntity(String name, CategoryType type) {
             Assert.notNull(name, "Name is mandatory");
