@@ -31,7 +31,7 @@ public class CategoryEntity{
 
         public CategoryEntity(String name, CategoryType type) {
             Assert.notNull(name, "Name is mandatory");
-            Assert.notNull(type, "Name is mandatory");
+            Assert.notNull(type, "Type is mandatory");
 
             this.id = new CategoryId();
             this.name = name;
