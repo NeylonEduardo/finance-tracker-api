@@ -50,7 +50,7 @@ public class TransactionEntity {
     })
     private CategoryEntity category;
 
-    public TransactionEntity(String description, BigDecimal amount, TransactionType type, LocalDateTime date) {
+    public TransactionEntity(String description, BigDecimal amount, TransactionType type, LocalDateTime date, AccountEntity account, CategoryEntity category) {
         Assert.notNull(description, "Description must not be null");
         Assert.notNull(amount, "Description must not be null");
         Assert.notNull(type, "Description must not be null");
@@ -60,5 +60,7 @@ public class TransactionEntity {
         this.amount = amount;
         this.type = type;
         this.date = date;
+        this.account = account;
+        this.category = category;
     }
 }

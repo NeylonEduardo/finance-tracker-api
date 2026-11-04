@@ -16,7 +16,7 @@ public record AccountRequest(
         AccountType type,
 
         @NotNull(message = "Initial balance is mandatory")
-        @DecimalMin(value = "0.00", message = "Initial balance cannot be nagative")
+        @DecimalMin(value = "0.00", message = "Initial balance cannot be negative")
         BigDecimal initialBalance
 ) {
 }
