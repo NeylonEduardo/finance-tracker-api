@@ -50,4 +50,25 @@ public class GlobalExceptionHandler {
                 .status(error.status())
                 .body(error);
     }
+
+    @ExceptionHandler({
+            AccountNotFoundException.class,
+            CategoryNotFoundException.class,
+            IncompatibleCategoryException.class
+    })
+    public ResponseEntity<CustomMessageError> customMessageErrors(
+            RuntimeException exception,
+            WebRequest request
+    ) {
+        CustomMessageError messageError = new CustomMessageError(
+                HttpStatus.NOT_FOUND.value(),
+                LocalDateTime.now(),
+                exception.getMessage(),
+                request.getDescription(false)
+        );
+
+        return ResponseEntity
+                .status(messageError.status())
+                .body(messageError);
+    }
 }
