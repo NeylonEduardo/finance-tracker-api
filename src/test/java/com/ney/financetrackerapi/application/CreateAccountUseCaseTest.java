@@ -39,7 +39,7 @@ class CreateAccountUseCaseTest {
                 }
                 """;
 
-        mockMvc.perform(post("/finance")
+        mockMvc.perform(post("/finance/account")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andExpect(status().isCreated())

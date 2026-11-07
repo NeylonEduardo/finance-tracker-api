@@ -46,7 +46,7 @@ class GetAllAccountsUseCaseTest {
 
         UUID id = entity.getId().id();
 
-        mockMvc.perform(get("/finance"))
+        mockMvc.perform(get("/finance/accounts"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(id.toString()))
                 .andExpect(jsonPath("$[0].name").value("Nubank"))
