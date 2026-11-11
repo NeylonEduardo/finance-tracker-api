@@ -1,6 +1,7 @@
 package com.ney.financetrackerapi.application;
 
 import com.ney.financetrackerapi.repository.AccountRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,10 @@ class CreateAccountUseCaseTest {
                 .andExpect(jsonPath("$.initialBalance").value(2500.00));
 
         assertThat(repository.count()).isEqualTo(1);
+    }
+
+    @AfterEach
+    void after() {
+        repository.deleteAll();
     }
 }
