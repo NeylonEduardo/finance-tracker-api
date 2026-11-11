@@ -29,8 +29,8 @@ public class AccountEntity {
 
     public AccountEntity(String name, AccountType type, BigDecimal initialBalance) {
         Assert.notNull(name, "Name is mandatory");
-        Assert.notNull(type, "Name is mandatory");
-        Assert.notNull(initialBalance, "Name is mandatory");
+        Assert.notNull(type, "Type is mandatory");
+        Assert.notNull(initialBalance, "Balance is mandatory");
 
         this.id = new AccountId();
         this.name = name;

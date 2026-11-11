@@ -44,8 +44,7 @@ public class TransactionEntity {
     public TransactionEntity(String description, BigDecimal amount, TransactionType type, LocalDate date, AccountEntity account, CategoryEntity category) {
         Assert.notNull(description, "Description must not be null");
         Assert.notNull(amount, "Description must not be null");
-        Assert.notNull(type, "Description must not be null");
-        Assert.notNull(date, "Description must not be null");
+        Assert.notNull(type, "Type must not be null");
 
         this.id = new TransactionId();
         this.description = description;
