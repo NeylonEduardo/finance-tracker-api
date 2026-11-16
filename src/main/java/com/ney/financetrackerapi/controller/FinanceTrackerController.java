@@ -3,6 +3,7 @@ package com.ney.financetrackerapi.controller;
 import com.ney.financetrackerapi.application.*;
 import com.ney.financetrackerapi.dto.*;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,18 +17,20 @@ import java.util.List;
 @Controller
 @RequestMapping("/finance")
 public class FinanceTrackerController {
-    CreateAccountUseCase createAccountUseCase;
-    CreateCategoryUseCase createCategoryUseCase;
-    CreateTransactionUseCase createTransactionUseCase;
-    GetAllAccountsUseCase getAllAccountsUseCase;
-    GetAllCategoriesUseCase getAllCategoriesUseCase;
+    private final CreateAccountUseCase createAccountUseCase;
+    private final CreateCategoryUseCase createCategoryUseCase;
+    private final CreateTransactionUseCase createTransactionUseCase;
+    private final GetAllAccountsUseCase getAllAccountsUseCase;
+    private final GetAllCategoriesUseCase getAllCategoriesUseCase;
+    private final GetAllTransactionsUseCase getAllTransactionsUseCase;
 
-    public FinanceTrackerController(CreateAccountUseCase createAccountUseCase, GetAllAccountsUseCase getAllAccountsUseCase, CreateCategoryUseCase createCategoryUseCase, GetAllCategoriesUseCase getAllCategoriesUseCase, CreateTransactionUseCase createTransactionUseCase) {
+    public FinanceTrackerController(CreateAccountUseCase createAccountUseCase, GetAllAccountsUseCase getAllAccountsUseCase, CreateCategoryUseCase createCategoryUseCase, GetAllCategoriesUseCase getAllCategoriesUseCase, CreateTransactionUseCase createTransactionUseCase, GetAllTransactionsUseCase getAllTransactionsUseCase) {
         this.createAccountUseCase = createAccountUseCase;
         this.getAllAccountsUseCase = getAllAccountsUseCase;
         this.createCategoryUseCase = createCategoryUseCase;
         this.getAllCategoriesUseCase = getAllCategoriesUseCase;
         this.createTransactionUseCase = createTransactionUseCase;
+        this.getAllTransactionsUseCase = getAllTransactionsUseCase;
     }
 
     @PostMapping("/account")
@@ -46,7 +49,7 @@ public class FinanceTrackerController {
     }
 
     @GetMapping("/accounts")
-    public ResponseEntity<List<AccountOutput>> getAll() {
+    public ResponseEntity<List<AccountOutput>> getAllAccounts() {
         return ResponseEntity
                 .ok()
                 .body(getAllAccountsUseCase.execute());
@@ -57,5 +60,12 @@ public class FinanceTrackerController {
         return ResponseEntity
                 .ok()
                 .body(getAllCategoriesUseCase.execute());
+    }
+
+    @GetMapping("/transactions")
+    public ResponseEntity<PageResponse<TransactionOutput>> getAllTransaction(Pageable pageable) {
+        return ResponseEntity
+                .ok()
+                .body(PageResponse.from(getAllTransactionsUseCase.execute(pageable)));
     }
 }
