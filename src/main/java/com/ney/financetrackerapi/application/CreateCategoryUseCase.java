@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CreateCategoryUseCase {
-    CategoryRepository repository;
+    private final CategoryRepository repository;
 
     public CreateCategoryUseCase(CategoryRepository repository) {
         this.repository = repository;

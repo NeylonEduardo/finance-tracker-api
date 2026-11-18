@@ -7,10 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -49,23 +46,23 @@ public class FinanceTrackerController {
     }
 
     @GetMapping("/accounts")
-    public ResponseEntity<List<AccountOutput>> getAllAccounts() {
+    public ResponseEntity<List<AccountOutput>> getAllAccounts(@RequestParam String sortBy) {
         return ResponseEntity
                 .ok()
-                .body(getAllAccountsUseCase.execute());
+                .body(getAllAccountsUseCase.execute(sortBy));
     }
 
     @GetMapping("/categories")
-    public ResponseEntity<List<CategoryOutput>> getAllCategories() {
+    public ResponseEntity<List<CategoryOutput>> getAllCategories(@RequestParam(defaultValue = "NAME") String sortBy) {
         return ResponseEntity
                 .ok()
-                .body(getAllCategoriesUseCase.execute());
+                .body(getAllCategoriesUseCase.execute(sortBy));
     }
 
     @GetMapping("/transactions")
-    public ResponseEntity<PageResponse<TransactionOutput>> getAllTransaction(Pageable pageable) {
+    public ResponseEntity<PageResponse<TransactionOutput>> getAllTransaction(Pageable pageable, @RequestParam(defaultValue = "description") String sortBy) {
         return ResponseEntity
                 .ok()
-                .body(PageResponse.from(getAllTransactionsUseCase.execute(pageable)));
+                .body(PageResponse.from(getAllTransactionsUseCase.execute(pageable, sortBy)));
     }
 }

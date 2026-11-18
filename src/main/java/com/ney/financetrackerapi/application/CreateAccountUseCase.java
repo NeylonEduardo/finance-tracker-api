@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CreateAccountUseCase {
-    AccountRepository repository;
+    private final AccountRepository repository;
 
     public CreateAccountUseCase(AccountRepository repository) {
         this.repository = repository;
