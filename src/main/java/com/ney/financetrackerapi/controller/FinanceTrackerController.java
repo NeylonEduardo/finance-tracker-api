@@ -1,6 +1,7 @@
 package com.ney.financetrackerapi.controller;
 
 import com.ney.financetrackerapi.application.*;
+import com.ney.financetrackerapi.domain.AccountId;
 import com.ney.financetrackerapi.dto.*;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/finance")
@@ -20,14 +22,16 @@ public class FinanceTrackerController {
     private final GetAllAccountsUseCase getAllAccountsUseCase;
     private final GetAllCategoriesUseCase getAllCategoriesUseCase;
     private final GetAllTransactionsUseCase getAllTransactionsUseCase;
+    private final CalculateTotalAccountBalanceUseCase calculateTotalAccountBalanceUseCase;
 
-    public FinanceTrackerController(CreateAccountUseCase createAccountUseCase, GetAllAccountsUseCase getAllAccountsUseCase, CreateCategoryUseCase createCategoryUseCase, GetAllCategoriesUseCase getAllCategoriesUseCase, CreateTransactionUseCase createTransactionUseCase, GetAllTransactionsUseCase getAllTransactionsUseCase) {
+    public FinanceTrackerController(CreateAccountUseCase createAccountUseCase, GetAllAccountsUseCase getAllAccountsUseCase, CreateCategoryUseCase createCategoryUseCase, GetAllCategoriesUseCase getAllCategoriesUseCase, CreateTransactionUseCase createTransactionUseCase, GetAllTransactionsUseCase getAllTransactionsUseCase, CalculateTotalAccountBalanceUseCase calculateTotalAccountBalanceUseCase) {
         this.createAccountUseCase = createAccountUseCase;
         this.getAllAccountsUseCase = getAllAccountsUseCase;
         this.createCategoryUseCase = createCategoryUseCase;
         this.getAllCategoriesUseCase = getAllCategoriesUseCase;
         this.createTransactionUseCase = createTransactionUseCase;
         this.getAllTransactionsUseCase = getAllTransactionsUseCase;
+        this.calculateTotalAccountBalanceUseCase = calculateTotalAccountBalanceUseCase;
     }
 
     @PostMapping("/account")
@@ -64,5 +68,12 @@ public class FinanceTrackerController {
         return ResponseEntity
                 .ok()
                 .body(PageResponse.from(getAllTransactionsUseCase.execute(pageable, sortBy)));
+    }
+
+    @GetMapping("/balance/{id}")
+    public ResponseEntity<AccountBalanceOutput> calculateAccountBalance(@PathVariable UUID id) {
+        return ResponseEntity.ok(
+                calculateTotalAccountBalanceUseCase.execute(new AccountId(id))
+        );
     }
 }
