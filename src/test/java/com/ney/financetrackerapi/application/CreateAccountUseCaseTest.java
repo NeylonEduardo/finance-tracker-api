@@ -1,14 +1,13 @@
 package com.ney.financetrackerapi.application;
 
 import com.ney.financetrackerapi.repository.AccountRepository;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -17,6 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 class CreateAccountUseCaseTest {
 
     @Autowired
@@ -24,11 +24,6 @@ class CreateAccountUseCaseTest {
 
     @Autowired
     private AccountRepository repository;
-
-    @BeforeEach
-    void before() {
-        repository.deleteAll();
-    }
 
     @Test
     void should_create_account() throws Exception {
@@ -52,8 +47,4 @@ class CreateAccountUseCaseTest {
         assertThat(repository.count()).isEqualTo(1);
     }
 
-    @AfterEach
-    void after() {
-        repository.deleteAll();
-    }
 }
