@@ -50,7 +50,7 @@ public class FinanceTrackerController {
     }
 
     @GetMapping("/accounts")
-    public ResponseEntity<List<AccountOutput>> getAllAccounts(@RequestParam String sortBy) {
+    public ResponseEntity<List<AccountOutput>> getAllAccounts(@RequestParam(defaultValue = "NAME") String sortBy) {
         return ResponseEntity
                 .ok()
                 .body(getAllAccountsUseCase.execute(sortBy));
