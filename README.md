@@ -2,7 +2,8 @@
 
 A REST API for personal financial tracking, built with Java and Spring Boot.
 
-The project manages accounts, transaction categories, and financial transactions. It was developed to practice RESTful design, relational persistence, DTOs, validation, pagination, ordering, and business rules with Spring Boot.
+The project manages accounts, transaction categories, and financial transactions. It was developed to practice RESTful
+design, relational persistence, DTOs, validation, pagination, ordering, and business rules with Spring Boot.
 
 ## Technologies
 
@@ -16,10 +17,12 @@ The project manages accounts, transaction categories, and financial transactions
 - Gradle
 - Lombok
 - JUnit, MockMvc, and AssertJ
+- Git Actions
 
 ## Features
 
 - Create accounts with an initial balance and account type
+- Update the account name and account type fields
 - Create income and expense categories
 - Create transactions associated with an account and category
 - Validate that a transaction type matches its category type
@@ -41,7 +44,8 @@ Each transaction belongs to one account and one category. The database stores th
 - `transaction.account_id` → `account.id`
 - `transaction.category_id` → `category.id`
 
-Categories and transactions use either `INCOME` or `EXPENSE`. The API rejects a transaction when its type is incompatible with the selected category.
+Categories and transactions use either `INCOME` or `EXPENSE`. The API rejects a transaction when its type is
+incompatible with the selected category.
 
 ## API base URL
 
@@ -51,15 +55,16 @@ http://localhost:8081/finance
 
 ## Endpoints
 
-| Method | Endpoint | Description |
-| --- | --- | --- |
-| `POST` | `/account` | Creates an account |
-| `POST` | `/category` | Creates a category |
-| `POST` | `/transaction` | Creates a transaction |
-| `GET` | `/accounts?sortBy={field}` | Lists accounts ordered by `name`, `type`, or `balance` |
-| `GET` | `/categories?sortBy={field}` | Lists categories ordered by `name` or `type` |
-| `GET` | `/transactions?page=0&size=10&sortBy={field}` | Lists transactions with pagination and ordering |
-| `GET` | `/balance/{accountId}` | Retrieves an account's stored balance value |
+| Method | Endpoint                                      | Description                                            |
+|--------|-----------------------------------------------|--------------------------------------------------------|
+| `POST` | `/account`                                    | Creates an account                                     |
+| `POST` | `/category`                                   | Creates a category                                     |
+| `POST` | `/transaction`                                | Creates a transaction                                  |
+| `PUT`  | `/account/{id}`                               | Update account filds                                   |
+| `GET`  | `/accounts?sortBy={field}`                    | Lists accounts ordered by `name`, `type`, or `balance` |
+| `GET`  | `/categories?sortBy={field}`                  | Lists categories ordered by `name` or `type`           |
+| `GET`  | `/transactions?page=0&size=10&sortBy={field}` | Lists transactions with pagination and ordering        |
+| `GET`  | `/balance/{accountId}`                        | Retrieves an account's stored balance value            |
 
 Transaction ordering accepts: `description`, `amount`, `type`, and `date`.
 
