@@ -26,8 +26,9 @@ public class FinanceTrackerController {
     private final CalculateTotalAccountBalanceUseCase calculateTotalAccountBalanceUseCase;
     private final DeleteAccountUseCase deleteAccountUseCase;
     private final DeleteCategoryUseCase deleteCategoryUseCase;
+    private final UpdateAccountUseCase updateAccountUseCase;
 
-    public FinanceTrackerController(CreateAccountUseCase createAccountUseCase, GetAllAccountsUseCase getAllAccountsUseCase, CreateCategoryUseCase createCategoryUseCase, GetAllCategoriesUseCase getAllCategoriesUseCase, CreateTransactionUseCase createTransactionUseCase, GetAllTransactionsUseCase getAllTransactionsUseCase, CalculateTotalAccountBalanceUseCase calculateTotalAccountBalanceUseCase, DeleteAccountUseCase deleteAccountUseCase, DeleteCategoryUseCase deleteCategoryUseCase) {
+    public FinanceTrackerController(CreateAccountUseCase createAccountUseCase, GetAllAccountsUseCase getAllAccountsUseCase, CreateCategoryUseCase createCategoryUseCase, GetAllCategoriesUseCase getAllCategoriesUseCase, CreateTransactionUseCase createTransactionUseCase, GetAllTransactionsUseCase getAllTransactionsUseCase, CalculateTotalAccountBalanceUseCase calculateTotalAccountBalanceUseCase, DeleteAccountUseCase deleteAccountUseCase, DeleteCategoryUseCase deleteCategoryUseCase, UpdateAccountUseCase updateAccountUseCase) {
         this.createAccountUseCase = createAccountUseCase;
         this.getAllAccountsUseCase = getAllAccountsUseCase;
         this.createCategoryUseCase = createCategoryUseCase;
@@ -37,6 +38,7 @@ public class FinanceTrackerController {
         this.calculateTotalAccountBalanceUseCase = calculateTotalAccountBalanceUseCase;
         this.deleteAccountUseCase = deleteAccountUseCase;
         this.deleteCategoryUseCase = deleteCategoryUseCase;
+        this.updateAccountUseCase = updateAccountUseCase;
     }
 
     @PostMapping("/account")
@@ -94,5 +96,10 @@ public class FinanceTrackerController {
         deleteCategoryUseCase.execute(new CategoryId(id));
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/account/{id}")
+    public ResponseEntity<AccountOutput> updateAccount(@PathVariable UUID id, @RequestBody @Valid UpdateAccountRequest request) {
+        return ResponseEntity.ok(updateAccountUseCase.execute(new AccountId(id), request));
     }
 }
