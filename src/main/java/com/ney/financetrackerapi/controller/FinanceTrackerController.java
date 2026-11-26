@@ -2,6 +2,7 @@ package com.ney.financetrackerapi.controller;
 
 import com.ney.financetrackerapi.application.*;
 import com.ney.financetrackerapi.domain.AccountId;
+import com.ney.financetrackerapi.domain.CategoryId;
 import com.ney.financetrackerapi.dto.*;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
@@ -23,8 +24,10 @@ public class FinanceTrackerController {
     private final GetAllCategoriesUseCase getAllCategoriesUseCase;
     private final GetAllTransactionsUseCase getAllTransactionsUseCase;
     private final CalculateTotalAccountBalanceUseCase calculateTotalAccountBalanceUseCase;
+    private final DeleteAccountUseCase deleteAccountUseCase;
+    private final DeleteCategoryUseCase deleteCategoryUseCase;
 
-    public FinanceTrackerController(CreateAccountUseCase createAccountUseCase, GetAllAccountsUseCase getAllAccountsUseCase, CreateCategoryUseCase createCategoryUseCase, GetAllCategoriesUseCase getAllCategoriesUseCase, CreateTransactionUseCase createTransactionUseCase, GetAllTransactionsUseCase getAllTransactionsUseCase, CalculateTotalAccountBalanceUseCase calculateTotalAccountBalanceUseCase) {
+    public FinanceTrackerController(CreateAccountUseCase createAccountUseCase, GetAllAccountsUseCase getAllAccountsUseCase, CreateCategoryUseCase createCategoryUseCase, GetAllCategoriesUseCase getAllCategoriesUseCase, CreateTransactionUseCase createTransactionUseCase, GetAllTransactionsUseCase getAllTransactionsUseCase, CalculateTotalAccountBalanceUseCase calculateTotalAccountBalanceUseCase, DeleteAccountUseCase deleteAccountUseCase, DeleteCategoryUseCase deleteCategoryUseCase) {
         this.createAccountUseCase = createAccountUseCase;
         this.getAllAccountsUseCase = getAllAccountsUseCase;
         this.createCategoryUseCase = createCategoryUseCase;
@@ -32,6 +35,8 @@ public class FinanceTrackerController {
         this.createTransactionUseCase = createTransactionUseCase;
         this.getAllTransactionsUseCase = getAllTransactionsUseCase;
         this.calculateTotalAccountBalanceUseCase = calculateTotalAccountBalanceUseCase;
+        this.deleteAccountUseCase = deleteAccountUseCase;
+        this.deleteCategoryUseCase = deleteCategoryUseCase;
     }
 
     @PostMapping("/account")
@@ -75,5 +80,19 @@ public class FinanceTrackerController {
         return ResponseEntity.ok(
                 calculateTotalAccountBalanceUseCase.execute(new AccountId(id))
         );
+    }
+
+    @DeleteMapping("/account/{id}")
+    public ResponseEntity<Void> deleteAccount(@PathVariable UUID id) {
+        deleteAccountUseCase.execute(new AccountId(id));
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/category/{id}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable UUID id) {
+        deleteCategoryUseCase.execute(new CategoryId(id));
+
+        return ResponseEntity.noContent().build();
     }
 }
