@@ -34,9 +34,11 @@ class DeleteCategoryUseCaseTest {
 
         categoryRepository.save(entity);
 
+        long categoryQuantityAfterSave = categoryRepository.count();
+        
         mockMvc.perform(delete("/finance/category/" + entity.getId().id().toString()))
                 .andExpect(status().isNoContent());
 
-        assertThat(categoryRepository.count()).isZero();
+        assertThat(categoryRepository.count()).isEqualTo(categoryQuantityAfterSave - 1);
     }
 }

@@ -22,7 +22,7 @@ class CreateFailedAccountUseCaseTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private AccountRepository repository;
+    private AccountRepository accountRepository;
 
     @Test
     public void should_create_failedAccount() throws Exception {
@@ -34,11 +34,13 @@ class CreateFailedAccountUseCaseTest {
                 }
                 """;
 
+        long accountQuantityAfterSave = accountRepository.count();
+
         mockMvc.perform(post("/finance/account")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(invalidRequest))
                 .andExpect(status().isBadRequest());
 
-        assertThat(repository.count()).isZero();
+        assertThat(accountRepository.count()).isEqualTo(accountQuantityAfterSave);
     }
 }

@@ -37,9 +37,11 @@ class DeleteAccountUseCaseTest {
 
         accountRepository.save(entity);
 
+        long accountQuantityAfterSave = accountRepository.count();
+
         mockMvc.perform(delete("/finance/account/" + entity.getId().id().toString()))
                 .andExpect(status().isNoContent());
 
-        assertThat(accountRepository.count()).isZero();
+        assertThat(accountRepository.count()).isEqualTo(accountQuantityAfterSave - 1);
     }
 }

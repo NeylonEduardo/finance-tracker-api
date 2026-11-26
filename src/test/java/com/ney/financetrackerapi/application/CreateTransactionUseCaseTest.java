@@ -73,6 +73,8 @@ class CreateTransactionUseCaseTest {
                 categoryId
         );
 
+        long transactionalQuantityAfterSave = transactionRepository.count();
+
         String json = objectMapper.writeValueAsString(request);
 
         mockMvc.perform(post("/finance/transaction")
@@ -87,6 +89,6 @@ class CreateTransactionUseCaseTest {
                 .andExpect(jsonPath("$.accountId").value(accountId.toString()))
                 .andExpect(jsonPath("$.categoryId").value(categoryId.toString()));
 
-        assertThat(transactionRepository.count()).isEqualTo(1);
+        assertThat(transactionRepository.count()).isEqualTo(transactionalQuantityAfterSave + 1);
     }
 }

@@ -23,7 +23,7 @@ class CreateAccountUseCaseTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private AccountRepository repository;
+    private AccountRepository accountRepository;
 
     @Test
     void should_create_account() throws Exception {
@@ -35,6 +35,8 @@ class CreateAccountUseCaseTest {
                 }
                 """;
 
+        long accountQuantityAfterSave = accountRepository.count();
+        
         mockMvc.perform(post("/finance/account")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
@@ -44,7 +46,7 @@ class CreateAccountUseCaseTest {
                 .andExpect(jsonPath("$.type").value("CREDIT_CARD"))
                 .andExpect(jsonPath("$.initialBalance").value(2500.00));
 
-        assertThat(repository.count()).isEqualTo(1);
+        assertThat(accountRepository.count()).isEqualTo(accountQuantityAfterSave + 1);
     }
 
 }

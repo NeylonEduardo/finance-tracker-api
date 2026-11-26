@@ -34,6 +34,8 @@ class CreateCategoryUseCaseTest {
                 }
                 """;
 
+        long categoryQuantityAfterSave = categoryRepository.count();
+
         mockMvc.perform(post("/finance/category")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
@@ -42,6 +44,6 @@ class CreateCategoryUseCaseTest {
                 .andExpect(jsonPath("$.name").value("Nubank"))
                 .andExpect(jsonPath("$.type").value("EXPENSE"));
 
-        assertThat(categoryRepository.count()).isEqualTo(1);
+        assertThat(categoryRepository.count()).isEqualTo(categoryQuantityAfterSave + 1);
     }
 }
